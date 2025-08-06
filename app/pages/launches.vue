@@ -29,6 +29,7 @@
                         <th class="text-left">Launch Site</th>
                         <th class="text-left">Rocket</th>
                         <th class="text-left">Details</th>
+                        <th class="text-left"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +39,11 @@
                         <td>{{ launch.launch_site?.site_name_long }}</td>
                         <td>{{ launch.rocket?.rocket_name }}</td>
                         <td>{{ launch.details || 'N/A' }}</td>
+                        <td>
+                            <v-btn v-if="launch.rocket" @click="addToFavorites(launch.rocket.rocket_name)">
+                                Add Rocket to Favorites
+                            </v-btn>
+                        </td>
                     </tr>
                 </tbody>
             </v-table>
@@ -47,13 +53,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useLaunches } from '~/composables/useLaunches';
-
 const {
     selectedYear,
     sortOrder,
     availableYears,
     sortedLaunches,
     formatDate,
+    addToFavorites
 } = useLaunches()
 </script>

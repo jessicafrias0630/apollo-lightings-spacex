@@ -72,11 +72,33 @@ export function useLaunches () {
 		})
 	}
 
+	const favorites = useFavorites()
+	function addToFavorites (rocketName: string) {
+		favorites.addFavorite(rocketName)
+	}
+
+	// For chart
+	const launchesByRocket = computed(() => {
+		const countMap: Record<string, number> = {}
+
+		launches.value.forEach(launch => {
+			const name = launch.rocket?.rocket_name ?? 'Unknown'
+			countMap[name] = (countMap[name] || 0) + 1
+		})
+
+		return {
+			labels: Object.keys(countMap),
+			data: Object.values(countMap),
+		}
+	})
+
 	return {
 		selectedYear,
 		sortOrder,
 		availableYears,
 		sortedLaunches,
 		formatDate,
+		addToFavorites,
+		launchesByRocket
 	}
 }
